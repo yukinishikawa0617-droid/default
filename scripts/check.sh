@@ -3,7 +3,7 @@
 # Usage: scripts/check.sh [fmt|lint|test|all]   (default: all)
 # `fmt` rewrites files; the others only verify. Exits non-zero on first failure.
 set -uo pipefail
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/.." || exit 1
 
 mode="${1:-all}"
 ran=0
@@ -61,9 +61,9 @@ fi
 
 # ---- Shell scripts ----
 if ! fmt && want lint; then
-  mapfile -t sh < <(git ls-files '*.sh' 2>/dev/null; ls scripts/*.sh 2>/dev/null)
+  mapfile -t sh < <({ git ls-files '*.sh' 2>/dev/null; ls scripts/*.sh 2>/dev/null; } | sort -u)
   if (( ${#sh[@]} )); then
-    for f in $(printf '%s\n' "${sh[@]}" | sort -u); do run bash -n "$f"; done
+    for f in "${sh[@]}"; do run bash -n "$f"; done
     if command -v shellcheck >/dev/null; then run shellcheck "${sh[@]}"; fi
   fi
 fi

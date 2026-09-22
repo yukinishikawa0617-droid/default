@@ -25,6 +25,9 @@ fi
 [[ -f Cargo.toml ]] && { log "cargo fetch"; cargo fetch; }
 [[ -f go.mod ]]     && { log "go mod download"; go mod download; }
 
+# Dev tools that check.sh relies on (CI runners have shellcheck preinstalled).
+command -v shellcheck >/dev/null || { log "uv tool install shellcheck-py"; uv tool install -q shellcheck-py; }
+
 # Persist the venv on PATH for the rest of the Claude session.
 if [[ -d .venv && -n "${CLAUDE_ENV_FILE:-}" ]]; then
   echo "export PATH=\"$PWD/.venv/bin:\$PATH\"" >> "$CLAUDE_ENV_FILE"
