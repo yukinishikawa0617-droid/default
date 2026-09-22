@@ -1,0 +1,27 @@
+# deps / envs
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+target/
+dist/
+build/
+.cache/
+.pytest_cache/
+.ruff_cache/
+coverage/
+
+# secrets
+.env
+.env.*
+!.env.example
+
+# editor / os
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# claude local-only
+.claude/settings.local.json
+CLAUDE.local.md
