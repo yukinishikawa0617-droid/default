@@ -17,7 +17,12 @@ Working agreement for Claude Code in this repo. Keep it short; update it when re
 tool, wire it into `scripts/setup.sh` and `scripts/check.sh` — not into ad-hoc docs —
 so local, Claude sessions and CI (`.github/workflows/ci.yml`) stay identical.
 
-## Stack defaults (when starting something new)
+## Stack
+
+Python 3.11+ managed by `uv`. Code in `src/app/`, tests in `tests/`, CLI entry `uv run app`.
+Add deps with `uv add <pkg>` (dev: `uv add --dev <pkg>`); commit `uv.lock`.
+
+### Defaults if another stack is added later
 
 - Node 22 + pnpm, TypeScript strict. Scripts named `lint`, `typecheck`, `test`, `format`
   are picked up automatically.
@@ -41,5 +46,7 @@ so local, Claude sessions and CI (`.github/workflows/ci.yml`) stay identical.
 scripts/setup.sh        dependency install, stack-detecting, idempotent
 scripts/check.sh        lint/typecheck/test/fmt entrypoint
 Makefile                thin aliases for the scripts
+src/app/                Python package (cli.py = entrypoint)
+tests/                  pytest tests
 .github/workflows/ci.yml  runs make setup && make check
 ```
